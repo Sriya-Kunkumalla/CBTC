@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todo List App</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+    }
+
+    .container {
+        max-width: 400px;
+        margin: 20px auto;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        padding: 20px;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    li:last-child {
+        border-bottom: none;
+    }
+
+    .completed {
+        text-decoration: line-through;
+        color: #888;
+    }
+
+    .remove-btn {
+        margin-left: auto;
+        cursor: pointer;
+        color: #f00;
+    }
+
+    .completed-tasks {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Todo List</h1>
+    <input type="text" id="newItem" placeholder="Add new item...">
+    <ul id="todoList"></ul>
+    <h2 class="completed-tasks">Completed Tasks</h2>
+    <ul id="completedList"></ul>
+</div>
+
+<script>
+    const todoList = document.getElementById('todoList');
+    const completedList = document.getElementById('completedList');
+    const newItemInput = document.getElementById('newItem');
+
+    function addItem(text) {
+        const li = document.createElement('li');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        const span = document.createElement('span');
+        span.textContent = text;
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        todoList.appendChild(li);
+
+        checkbox.addEventListener('change', function() {
+            if (checkbox.checked) {
+                li.classList.add('completed');
+                completedList.appendChild(li);
+            } else {
+                li.classList.remove('completed');
+                todoList.appendChild(li);
+            }
+        });
+
+        const removeBtn = document.createElement('span');
+        removeBtn.classList.add('remove-btn');
+        removeBtn.textContent = '❌';
+        removeBtn.addEventListener('click', function() {
+            li.remove();
+        });
+        li.appendChild(removeBtn);
+    }
+
+    newItemInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter' && newItemInput.value.trim() !== '') {
+            addItem(newItemInput.value.trim());
+            newItemInput.value = '';
+        }
+    });
+</script>
+</body>
+</html>
